@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 const AddList = ( {id,description,donee,update,add,setAdd,setDone,setUpdate}) => {
 
   const [textChange,setText]=useState(description)
+
 //delete button
   const handleDEl = () => {
     const v=add.filter(el=>el.id!==id)
@@ -29,11 +30,11 @@ const handleTextUpdate = (e) => {
     <div className='ms-5 d-flex justify-content-between'> 
       <div className='ms-5 d-flex '>
         <input type="checkbox" onChange={handleDone} style={{width:'30px',height:'40px',marginInlineStart:'60px',marginInlineEnd:'20px'}}/>
-        {update ? <p className={donee? 'text-decoration-line-through':''}>{description} </p> : <input type="text" placeholder={textChange} onChange={handleTextUpdate}/>}
+        {update ?  <input type="text" placeholder={textChange} onChange={handleTextUpdate}/> : <p className={donee? 'text-decoration-line-through':''}>{description} </p>}
       </div>
       <div style={{marginInlineEnd:'145px'}}>
         {/* <button className='mx-1' onClick={handleDone}>{donee? 'Undone' :'Done' }</button> */}
-        <button className='mx-1' onClick={handleUpdate} >{update? "🖍":"Save"}</button>
+        <button className='mx-1' onClick={handleUpdate} >{update? "Save": "🖍"}</button>
         <button className='mx-1' onClick={handleDEl} >X</button>
       </div>
     </div>
