@@ -30,7 +30,7 @@ const handleTextUpdate = (e) => {
     <div className='ms-5 d-flex justify-content-between'> 
       <div className='ms-5 d-flex '>
         <input type="checkbox" onChange={handleDone} style={{width:'30px',height:'40px',marginInlineStart:'60px',marginInlineEnd:'20px'}}/>
-        {update ?  <input type="text" placeholder={textChange} onChange={handleTextUpdate}/> : <p className={donee? 'text-decoration-line-through':''}>{description} </p>}
+        {update ?  <input type="text" className="form-control"  value={textChange} onChange={handleTextUpdate}/> : <p className={donee? 'text-decoration-line-through':''}>{description} </p>}
       </div>
       <div style={{marginInlineEnd:'145px'}}>
         {/* <button className='mx-1' onClick={handleDone}>{donee? 'Undone' :'Done' }</button> */}
