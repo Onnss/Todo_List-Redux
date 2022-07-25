@@ -22,7 +22,7 @@ const handleUpdate=()=>{
 const handleTextUpdate = (e) => {
   const t=e.target.value
   setText(t)
-  setAdd(prev=>prev.map(el=> el.id===id? {...el,description:t,update:!update} :el))
+  setAdd(prev=>prev.map(el=> el.id===id? {...el,description:t} :el))
 }
 
   return (
