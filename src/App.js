@@ -14,7 +14,7 @@ function App() {
   }
   //button add
   const handleAdd=()=>{
-    todo && setAdd([{id:uuidv4(),description:todo,done:false,updated:false},...add])
+    todo.trim() && setAdd([{id:uuidv4(),description:todo,done:false,updated:false},...add])
     setTodo("")
     document.getElementById('myInput').value = ''
   }
