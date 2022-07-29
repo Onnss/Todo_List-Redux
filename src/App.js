@@ -2,11 +2,14 @@ import { useState } from 'react';
 import './App.css';
 import {v4 as uuidv4} from 'uuid';
 import AddList from './Component/addList'
+import { useDispatch, useSelector } from 'react-redux';
+import {AddTodo,filteredByDone,filteredByUndone,filteredByAll} from './Redux/todoSlice'
 function App() {
-  const [add,setAdd]=useState([])
+  let todoo=useSelector(state=>state.todos.todos)
+  let filter=useSelector(state=>state.todos.filtered)
+  const dispatch = useDispatch()
+  //reading user input
   const [todo,setTodo]=useState('')
-  const [don,setDone]=useState(false)
-  const [uptodate,setUpdate]=useState(false)
   //text todo
   const handleTodo=(e)=>{
     let r=e.target.value
@@ -14,10 +17,12 @@ function App() {
   }
   //button add
   const handleAdd=()=>{
-    todo.trim() && setAdd([{id:uuidv4(),description:todo,done:false,updated:false},...add])
+    todo.trim() && dispatch(AddTodo({id:uuidv4(),description:todo,done:false,updated:false}))
     setTodo("")
     document.getElementById('myInput').value = ''
   }
+  //filtering todo tasks
+  const task=(filter==='Done')? todoo.filter(el=>el.done===true):(filter==='Undone')? todoo.filter(el=>el.done===false):todoo
   return (
     <div className="container">
       <div className="heading">
@@ -26,10 +31,11 @@ function App() {
       <div className="form">
         <input id='myInput' onChange={handleTodo} type="text" />
         <button onClick={handleAdd}><span>+</span></button>
-        <button onClick={()=>setAdd([])}><span>Delete all</span></button>
       </div>
-      {add.map(el=><AddList key={el.id} id={el.id} description={el.description} donee={el.done} update={el.updated} add={add} setAdd={setAdd} setDone={setDone}  setUpdate={setUpdate} don={don} uptodate={uptodate}/>)}
-      <button onClick={()=>{setAdd(add.filter(el=>el.done!==true))}}><span>Delete done tasks X</span></button>
+      {task.map(el=><AddList key={el.id} id={el.id} description={el.description} donee={el.done} update={el.updated}  />)}
+      <button onClick={()=>dispatch(filteredByAll())} ><span>All</span></button>
+      <button onClick={()=>dispatch(filteredByDone())} ><span>Done</span></button>
+      <button onClick={()=>dispatch(filteredByUndone())} ><span>Undone</span></button> 
     </div>
   );
 }

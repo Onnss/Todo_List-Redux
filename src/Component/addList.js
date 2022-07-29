@@ -1,40 +1,39 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import {DeleteTodo,toggleDone,toggleUpdated,UpdateTodo} from '../Redux/todoSlice'
+const AddList = ( {id,description,donee,update}) => {
 
-const AddList = ( {id,description,donee,update,add,setAdd,setDone,setUpdate}) => {
-
+ const dispatch=useDispatch()
   const [textChange,setText]=useState(description)
 
 //delete button
   const handleDEl = () => {
-    const v=add.filter(el=>el.id!==id)
-    setAdd(v.map(el=>el))
+    dispatch(DeleteTodo(id))
 }
 //done button
 const handleDone=()=>{
-  setDone(!donee)
-  setAdd(prev=>prev.map(el=> el.id===id? {...el,done:!donee} :el))
+  dispatch(toggleDone(id))
 }
 //update button
 const handleUpdate=()=>{
-  setUpdate(!update)
-  setAdd(prev=>prev.map(el=> el.id===id? {...el,updated:!update} :el))
+  dispatch(toggleUpdated(id))
+  
 }
 //text updated
 const handleTextUpdate = (e) => {
   const t=e.target.value
   setText(t)
-  setAdd(prev=>prev.map(el=> el.id===id? {...el,description:t} :el))
+  dispatch(UpdateTodo({id:id,description:t}))
 }
 
   return (
     <div className='ms-5 d-flex justify-content-between'> 
-      <div className='ms-5 d-flex '>
-        <input type="checkbox" onChange={handleDone} style={{width:'30px',height:'40px',marginInlineStart:'60px',marginInlineEnd:'20px'}}/>
-        {update ?  <input type="text" className="form-control"  value={textChange} onChange={handleTextUpdate}/> : <p className={donee? 'text-decoration-line-through':''}>{description} </p>}
+      <div className='d-flex ' style={{marginLeft:'150px'}}>
+        {update ?  <input type="text" className="form-control"  value={textChange} onChange={handleTextUpdate}/> : <li className={donee? 'text-decoration-line-through':''}>{description} </li>}
       </div>
       <div style={{marginInlineEnd:'145px'}}>
-        {/* <button className='mx-1' onClick={handleDone}>{donee? 'Undone' :'Done' }</button> */}
         <button className='mx-1' onClick={handleUpdate} >{update? "Save": "🖍"}</button>
+        <button className='mx-1' onClick={handleDone} >{donee? 'Undone':'Done'}</button>
         <button className='mx-1' onClick={handleDEl} >X</button>
       </div>
     </div>
